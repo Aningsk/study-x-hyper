@@ -23,6 +23,7 @@ set(SOURCES
     drivers/pl011.c
     utils/utils.c
     utils/printf.c
+    arch/spinlock.c
     main.c
 )
 
@@ -31,6 +32,7 @@ add_executable(image.elf ${SOURCES})
 
 # Header files path
 target_include_directories(image.elf PRIVATE
+    ${CMAKE_SOURCE_DIR}/arch
     ${CMAKE_SOURCE_DIR}/drivers
     ${CMAKE_SOURCE_DIR}/utils
 )
