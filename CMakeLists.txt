@@ -24,6 +24,7 @@ set(SOURCES
     utils/utils.c
     utils/printf.c
     arch/spinlock.c
+    utils/xmalloc.c
     main.c
 )
 
