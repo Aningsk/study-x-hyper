@@ -1,6 +1,12 @@
+/**
+ * Linker script for hypervisor image
+ * Notice: to use #include, need to process the linker script with cpp
+ */
+#include "arch/layout.h"
+
 MEMORY
 {
-    RAM (rwx) : ORIGIN = 0x40200000, LENGTH = 512M
+    RAM (rwx) : ORIGIN = HIMAGE_VADDR, LENGTH = 512M
 }
 
 PHDRS
@@ -15,7 +21,7 @@ ENTRY(_start)
 SECTIONS
 {
     /* hyper image link virtual addr, here equal to phys addr */
-    . = 0x40200000;
+    . = HIMAGE_VADDR;
 
     .text.boot : {
       KEEP(*(.text.boot))
