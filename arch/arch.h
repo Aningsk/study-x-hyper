@@ -3,6 +3,10 @@
 
 #include "types.h"
 
+#define NCPU 1
+#define SZ_4K 0x1000
+#define PAGE_SIZE SZ_4K
+
 /* Read a sys_reg to val */
 #define __read_sysreg(val, reg) asm volatile("mrs %0, " #reg : "=r"(val))
 #define read_sysreg(val, reg) __read_sysreg(val, reg)
