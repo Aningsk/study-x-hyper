@@ -44,4 +44,11 @@ static inline void flush_tlb()
 	isb();
 }
 
+static inline u8 get_el(void)
+{
+	u64 el;
+	read_sysreg(el, CurrentEL);
+	return (el >> 2) & 0x3;
+}
+
 #endif
