@@ -32,6 +32,7 @@ set(SOURCES
     arch/spinlock.c
     utils/xmalloc.c
     utils/kalloc.c
+    arch/mm.c
     main.c
 )
 
