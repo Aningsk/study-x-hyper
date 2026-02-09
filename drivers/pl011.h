@@ -1,6 +1,31 @@
 #ifndef _PL011_H
 #define _PL011_H
 
+#define PL011BASE 0x09000000
+#define REG(reg) (volatile unsigned int *)(PL011BASE + reg)
+
+/* PL011 register offest from BASE */
+#define PL011DR 0x00 //Data Register
+#define PL011FR 0x18 //Flag Register
+#define PL011IBRD 0x24 //Integer Baud Rate Register
+#define PL011FBRD 0x28 //Fractional Baud Rate Register
+#define PL011LCRH 0x2c //Line Control Register
+#define PL011CR 0x30 //Control Register
+#define PL011IMSC 0x38 //Interrupt Mask Set/Clear Register,
+#define PL011MIS 0x40 //Masked Interrupt Status Register
+#define PL011ICR 0x44 //Interrupt Clear Register
+
+#define PL011_FR_RXFE (1 << 4) //Recieve fifo empty
+#define PL011_FR_TXFF (1 << 5) //Transmit fifo full
+#define PL011_FR_RXFF (1 << 6) //Recieve fifl fulll
+#define PL011_FR_TXFE (1 << 7) //Transmit fifo empty
+
+#define PL011_LCRH_FEN (1 << 4) //Enable/Disable Fifos
+#define PL011_LCRH_WLEN_8BIT (3 << 5) //Word length - 8Bit
+
+#define PL011_INTRX_ENABLED (1 << 4) //Receive interrupt status
+#define PL011_INTTX_ENABLED (1 << 5) //Transmit interrupt status
+
 void pl011_putc(char c);
 void pl011_puts(char *s);
 int pl011_getc(void);
