@@ -5,6 +5,8 @@
 #include "utils/kalloc.h"
 #include "arch/mm.h"
 
+#include "test/stage2_mmu.h"
+
 __attribute__((aligned(SZ_4K))) char sp_stack[SZ_4K * NCPU] = { 0 };
 
 int main(void)
@@ -19,6 +21,8 @@ int main(void)
 
 	stage2_mmu_init();
 	hyper_setup();
+
+	test_create_vm_mapping();
 
 	return 0;
 }

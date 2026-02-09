@@ -33,8 +33,34 @@ set(SOURCES
     utils/xmalloc.c
     utils/kalloc.c
     arch/mm.c
+    vm/guest.c
+    test/stage2_mmu.c
     main.c
 )
+
+# -----------------------------
+# Build Guest VM as object file
+# -----------------------------
+set(GUESTVM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GuestVM")
+set(GUESTVM_OBJ "${GUESTVM_DIR}/GuestVM.o")
+
+# Custom command to generate GuestVM.o
+add_custom_command(
+    OUTPUT ${GUESTVM_OBJ}
+    COMMAND ${GUESTVM_DIR}/build.sh
+    WORKING_DIRECTORY ${GUESTVM_DIR}
+    DEPENDS ${GUESTVM_DIR}/build.sh ${GUESTVM_DIR}/head.S ${GUESTVM_DIR}/linker.ld
+    COMMENT "Building Guest VM object: GuestVM.o"
+    VERBATIM
+)
+
+# Create a custom target for it
+add_custom_target(GuestVMObj ALL
+    DEPENDS ${GUESTVM_OBJ}
+)
+
+# Add GuestVM.o into SOURCES
+list(APPEND SOURCES ${GUESTVM_OBJ})
 
 # -----------------------------
 # Executable target
@@ -45,7 +71,11 @@ target_include_directories(image.elf PRIVATE
     ${CMAKE_SOURCE_DIR}/arch
     ${CMAKE_SOURCE_DIR}/drivers
     ${CMAKE_SOURCE_DIR}/utils
+    ${CMAKE_SOURCE_DIR}/vm
 )
+
+# Make sure building the Guest VM object is a dependency
+add_dependencies(image.elf GuestVMObj)
 
 # -----------------------------
 # Preprocess linker script
