@@ -4,8 +4,8 @@
 #include "layout.h"
 #include "types.h"
 
-#define NCPU 1
-#define SZ_4K 0x1000
+#define NCPU 4
+#define SZ_4K 0x1000UL
 #define PAGE_SIZE SZ_4K
 
 /* Read a sys_reg to val */
