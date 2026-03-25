@@ -14,8 +14,14 @@ _start:
     mul     x3, x3, x2
     add     x0, x0, x3
     mov     sp, x0
-    bl      main
+    cbz     x1, hyp_primary_init
+    bl      hyp_secondary_init
     /* spin here */
 hang:
     wfe
     b       hang
+
+.global smc_call
+smc_call:
+    smc #0
+    ret

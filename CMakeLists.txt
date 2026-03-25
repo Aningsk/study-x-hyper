@@ -26,6 +26,7 @@ set(CMAKE_ASM_FLAGS "-D__ASSEMBLY__")
 # -----------------------------
 set(SOURCES
     head.S
+    vector.S
     drivers/pl011.c
     utils/utils.c
     utils/printf.c
@@ -33,7 +34,11 @@ set(SOURCES
     utils/xmalloc.c
     utils/kalloc.c
     arch/mm.c
+    arch/el1_sync.c
+    arch/vpsci.c
+    arch/vcpu.c
     vm/guest.c
+    vm/vm.c
     test/stage2_mmu.c
     main.c
 )

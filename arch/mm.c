@@ -86,12 +86,20 @@ void stage2_mmu_init(void)
 	return;
 }
 
+extern void hyper_vector();
 /* Provides configuration controls for virtualization */
 void hyper_setup(void)
 {
-	u64 hcr = HCR_RW | HCR_VM;
+	/* HCR_TSC: Traps EL1 execution of SMC instructions to EL2
+	 * HCR_RW:  The Execution state for EL1 is AArch64
+	 * HCR_VM:  EL1&0 stage 2 address translation enabled
+	 */
+	u64 hcr = HCR_RW | HCR_VM | HCR_TSC;
 	LOG_INFO("Setting hcr_el2 to 0x%x\n", hcr);
 	write_sysreg(hcr_el2, hcr);
+
+	LOG_INFO("Setting Vector Base Address Register for EL2\n");
+	write_sysreg(vbar_el2, (u64)hyper_vector);
 
 	isb();
 	return;
