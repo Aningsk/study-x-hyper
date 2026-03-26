@@ -17,9 +17,9 @@ set(CMAKE_SYSTEM_PROCESSOR aarch64)
 # -----------------------------
 # Compile flags
 # -----------------------------
-set(COMMON_FLAGS "-ffreestanding -fno-builtin -mgeneral-regs-only")
+set(COMMON_FLAGS "-g -O0 -ffreestanding -fno-builtin -mgeneral-regs-only")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
-set(CMAKE_ASM_FLAGS "-D__ASSEMBLY__")
+set(CMAKE_ASM_FLAGS "-g -O0 -D__ASSEMBLY__")
 
 # -----------------------------
 # Source files
@@ -150,6 +150,14 @@ if(QEMU_SYSTEM_AARCH64 AND EXISTS "${CMAKE_SOURCE_DIR}/scripts/run_qemu.sh")
         DEPENDS UImage
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMENT "Launching QEMU"
+    )
+endif()
+if(QEMU_SYSTEM_AARCH64 AND EXISTS "${CMAKE_SOURCE_DIR}/scripts/run_qemu_debug.sh")
+    add_custom_target(debug
+        COMMAND ${CMAKE_SOURCE_DIR}/scripts/run_qemu_debug.sh
+        DEPENDS UImage
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Launching QEMU (Debug Mode with GDB on port 1991)"
     )
 endif()
 
